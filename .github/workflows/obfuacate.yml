@@ -1,0 +1,39 @@
+name: Obfuscate Luau
+
+on:
+  push:
+    paths:
+      - 'src/*.lua'
+  workflow_dispatch:  # Manuel çalıştırma
+
+jobs:
+  obfuscate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Run obfuscator on all .lua files
+        run: |
+          mkdir -p obfuscated
+          for file in src/*.lua; do
+            filename=$(basename "$file")
+            python obfuscator.py "$file" "obfuscated/$filename"
+          done
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add obfuscated/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-obfuscate Luau files"
+            git push
+          fi
