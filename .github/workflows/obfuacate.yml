@@ -1,39 +1,37 @@
-name: Obfuscate Luau
+name: Deploy Static Content to Pages
 
 on:
   push:
-    paths:
-      - 'src/*.lua'
-  workflow_dispatch:  # Manuel çalıştırma
+    branches: ["main"] # Ana dalına kod yüklendiğinde tetiklenir
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  obfuscate:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          python-version: '3.10'
+          path: '.' # Ana dizindeki tüm dosyaları (index.html, js) yükler
 
-      - name: Run obfuscator on all .lua files
-        run: |
-          mkdir -p obfuscated
-          for file in src/*.lua; do
-            filename=$(basename "$file")
-            python obfuscator.py "$file" "obfuscated/$filename"
-          done
-
-      - name: Commit and push changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add obfuscated/
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Auto-obfuscate Luau files"
-            git push
-          fi
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        
