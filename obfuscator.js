@@ -8,7 +8,7 @@ function obfuscateString(str) {
         return '"' + hexed + '"';
     });
 }
-// holly puh
+// holly puhy
 
 function startObfuscation() {
     let input = document.getElementById("inputCode").value;
