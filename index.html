@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <title>Luau VM Obfuscator</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #e0e0e0; padding: 30px; }
-        textarea { width: 100%; height: 220px; background: #1e1e1e; color: #50fa7b; border: 1px solid #333; font-family: monospace; padding: 12px; box-sizing: border-box; border-radius: 6px; }
-        button { padding: 12px 24px; background: #bd93f9; border: none; color: #121212; font-secondary: bold; cursor: pointer; margin: 15px 0; font-weight: bold; border-radius: 4px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #e0e0e0; padding: 20px; }
+        textarea { width: 100%; height: 180px; background: #1e1e1e; color: #50fa7b; border: 1px solid #333; font-family: monospace; padding: 12px; box-sizing: border-box; border-radius: 6px; }
+        button { padding: 12px 24px; background: #bd93f9; border: none; color: #121212; cursor: pointer; margin: 15px 0; font-weight: bold; border-radius: 4px; }
         button:hover { background: #ff79c6; }
-        h2 { color: #bd93f9; }
+        h2 { color: #bd93f9; margin-bottom: 5px; }
+        
+        /* Sanal Konsol Tasarımı */
+        .console-box { background: #000; border: 2px solid #ff5555; border-radius: 6px; padding: 10px; margin-top: 20px; font-family: monospace; }
+        .console-title { color: #ff5555; font-weight: bold; margin-bottom: 5px; border-bottom: 1px solid #ff5555; padding-bottom: 3px;}
+        .console-log { color: #ffb86c; white-space: pre-wrap; max-height: 150px; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -20,6 +25,11 @@
     
     <p>Üretilen VM Tabanlı Kod (Korumalı):</p>
     <textarea id="outputCode" readonly></textarea>
+
+    <div class="console-box">
+        <div class="console-title">Sanal Konsol (Hata Günlüğü)</div>
+        <div id="errorLog" class="console-log">Henüz bir hata yok. Temiz!</div>
+    </div>
 
     <script src="obfuscator.js"></script>
 </body>
