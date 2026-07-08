@@ -2,9 +2,9 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Python tabanlı Luau VM Obfuscator</title>
-    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
-    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+    <title>Python Luau VM Obfuscator</title>
+    <link rel="stylesheet" href="https://pyscript.net/snapshots/2023.11.1/core.css" />
+    <script type="module" src="https://pyscript.net/snapshots/2023.11.1/core.js"></script>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #e0e0e0; padding: 20px; }
         textarea { width: 100%; height: 180px; background: #1e1e1e; color: #50fa7b; border: 1px solid #333; font-family: monospace; padding: 12px; box-sizing: border-box; border-radius: 6px; }
@@ -26,27 +26,29 @@
     
     <div id="statusBox" class="status">Sistem hazır. Python yükleniyor...</div>
 
-    <script type="py" src="obfuscator.py" config='{"packages":[]}'></script>
+    <script type="py" src="./obfuscator.py"></script>
 
     <script>
-        // Python yüklendiğinde bu fonksiyon Python tarafından çağrılacak
         function setSystemReady() {
-            document.getElementById("statusBox").innerText = "Python Altyapısı Başarıyla Yüklendi! Hazır.";
+            document.getElementById("statusBox").innerText = "Python Altyapısı Hazır!";
             document.getElementById("statusBox").style.color = "#50fa7b";
         }
 
         function bridgeExecute() {
-            document.getElementById("statusBox").innerText = "Python kodu işliyor...";
-            
-            // 1. HTML'deki temiz kodu al (JS)
-            let inputLua = document.getElementById("inputCode").value;
-            
-            // 2. PyScript köprüsü üzerinden Python fonksiyonunu çağır ve kodu gönder
-            let obfuscatedResult = pyscript.runners.get('py').run_js_func('py_obfuscate', inputLua);
-            
-            // 3. Python'dan dönen sonucu alıp çıktı kutusuna yazdır (JS)
-            document.getElementById("outputCode").value = obfuscatedResult;
-            document.getElementById("statusBox").innerText = "Başarılı! VM Kodu Üretildi.";
+            try {
+                document.getElementById("statusBox").innerText = "Python kodu işliyor...";
+                let inputLua = document.getElementById("inputCode").value;
+                
+                // PyScript üzerinden Python fonksiyonunu tetikle
+                let obfuscatedResult = pyscript.runners.get('py').run_js_func('py_obfuscate', inputLua);
+                
+                document.getElementById("outputCode").value = obfuscatedResult;
+                document.getElementById("statusBox").innerText = "Başarılı! VM Kodu Üretildi.";
+                document.getElementById("statusBox").style.color = "#50fa7b";
+            } catch (err) {
+                document.getElementById("statusBox").innerText = "Hata oluştu: " + err.message;
+                document.getElementById("statusBox").style.color = "#ff5555";
+            }
         }
     </script>
 </body>
