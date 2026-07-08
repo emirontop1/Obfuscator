@@ -2,22 +2,23 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Basit Luau Obfuscator</title>
+    <title>Luau VM Obfuscator</title>
     <style>
-        body { font-family: sans-serif; background: #1e1e1e; color: #fff; padding: 20px; }
-        textarea { width: 100%; height: 200px; background: #2d2d2d; color: #a9dc76; border: 1px solid #444; font-family: monospace; padding: 10px; box-sizing: border-box; }
-        button { padding: 10px 20px; background: #fc5c65; border: none; color: white; cursor: pointer; margin: 10px 0; font-weight: bold; }
-        button:hover { background: #ff7675; }
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #e0e0e0; padding: 30px; }
+        textarea { width: 100%; height: 220px; background: #1e1e1e; color: #50fa7b; border: 1px solid #333; font-family: monospace; padding: 12px; box-sizing: border-box; border-radius: 6px; }
+        button { padding: 12px 24px; background: #bd93f9; border: none; color: #121212; font-secondary: bold; cursor: pointer; margin: 15px 0; font-weight: bold; border-radius: 4px; }
+        button:hover { background: #ff79c6; }
+        h2 { color: #bd93f9; }
     </style>
 </head>
 <body>
-    <h2>Luau Obfuscator</h2>
-    <p>Temiz Kodunu Buraya Yapıştır:</p>
-    <textarea id="inputCode">local mesaj = "Merhaba Dunya"\nprint(mesaj)</textarea>
+    <h2>Luau VM-Level Obfuscator</h2>
+    <p>Kaynak Lua Kodunu Yazın:</p>
+    <textarea id="inputCode">print("Selam VM dünyasi!")</textarea>
     
-    <button onclick="startObfuscation()">Kodu Karıştır!</button>
+    <button onclick="runVMObfuscator()">VM Koduna Dönüştür</button>
     
-    <p>Karıştırılmış (Obfuscated) Kod:</p>
+    <p>Üretilen VM Tabanlı Kod (Korumalı):</p>
     <textarea id="outputCode" readonly></textarea>
 
     <script src="obfuscator.js"></script>
