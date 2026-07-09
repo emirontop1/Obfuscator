@@ -1,9 +1,8 @@
-import { Check, Copy, Download, FileCode2, Github, Loader2, Play, RotateCcw, Share2, Square, TriangleAlert } from "lucide-react"
+import { Check, Copy, Download, FileCode2, Github, Loader2, Play, RotateCcw, Share2, Square } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 
 import { CodeEditor } from "@/components/CodeEditor"
-import { ScrambleText } from "@/components/ScrambleText"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -106,7 +105,7 @@ async function sha256Hex(input: string): Promise<string> {
 export default function App() {
   const [source, setSource] = useState(initialSource)
   const [output, setOutput] = useState("")
-  const [preset, setPreset] = useState<PresetName>("Insane")
+  const [preset, setPreset] = useState<PresetName>("Medium")
   const [luaVersion, setLuaVersion] = useState<LuaVersion>("Lua51")
   const [prettyPrint, setPrettyPrint] = useState(false)
   const [seed, setSeed] = useState(createSeed)
@@ -481,17 +480,14 @@ export default function App() {
         <header className="border-b bg-card">
           <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-3 px-4 py-3 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                <FileCode2 className="size-5" />
+              <div className="brand-mark flex size-9 items-center justify-center rounded-sm border border-primary/50 text-primary">
+                <FileCode2 className="size-4.5" />
               </div>
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[oklch(0.78_0.15_70)]">
-                  luau // lua &middot; client-side
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+                  luau / lua &middot; runs in your browser
                 </p>
-                <h1 className="text-lg font-semibold leading-tight tracking-tight">
-                  <ScrambleText text="OBFUSCATOR" />
-                </h1>
-                <p className="text-[11px] text-muted-foreground">Paste Luau. Get scrambled Luau. Nothing leaves your browser.</p>
+                <h1 className="font-display text-xl font-semibold leading-tight tracking-tight">Obfuscator</h1>
               </div>
             </div>
             <div className="flex items-center gap-2 text-sm">
@@ -499,12 +495,12 @@ export default function App() {
                 href="https://github.com/emirontop1/Obfuscator"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-md border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                className="inline-flex items-center gap-2 rounded-sm border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
               >
                 GitHub
                 <Github className="size-3.5" />
               </a>
-              <Button onClick={isObfuscating ? stopCurrentJob : () => void obfuscate()} disabled={isBusy && !isObfuscating} className="min-w-32">
+              <Button onClick={isObfuscating ? stopCurrentJob : () => void obfuscate()} disabled={isBusy && !isObfuscating} className="min-w-32 rounded-sm">
                 {isObfuscating ? <Loader2 className="animate-spin" /> : <Play />}
                 {isObfuscating ? "Stop" : "Obfuscate"}
               </Button>
@@ -544,7 +540,7 @@ export default function App() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex h-10 items-center gap-2 self-end rounded-md border bg-card px-3">
+            <div className="flex h-10 items-center gap-2 self-end rounded-sm border bg-card px-3">
               <Switch checked={prettyPrint} onCheckedChange={setPrettyPrint} id="pretty-print" disabled={isBusy} />
               <Label htmlFor="pretty-print" className="text-sm">
                 Pretty print
@@ -597,14 +593,6 @@ export default function App() {
                 <TooltipContent>Share link</TooltipContent>
               </Tooltip>
             </div>
-            {preset === "Strong" || preset === "Insane" ? (
-              <div className="flex items-start gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs leading-snug text-amber-900 md:col-span-2 xl:col-span-5 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
-                <TriangleAlert className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
-                <p>
-                  {preset} is very strict and only supports Lua 5.1. It will fail in environments such as the web playground runtime (Lua 5.4).
-                </p>
-              </div>
-            ) : null}
           </div>
         </section>
 
@@ -613,7 +601,7 @@ export default function App() {
             label="Lua input"
             value={source}
             onChange={setSource}
-            className="max-h-[560px] xl:max-h-none"
+            className="corner-frame max-h-[560px] rounded-sm xl:max-h-none"
             actionButton={{
               label: isRunningInput ? "Stop" : "Run",
               icon: isRunningInput ? <Square /> : <Play />,
@@ -625,7 +613,7 @@ export default function App() {
             label="Obfuscated output"
             value={output}
             readOnly
-            className="max-h-[560px] xl:max-h-none"
+            className="corner-frame max-h-[560px] rounded-sm xl:max-h-none"
             actionButton={{
               label: isRunningOutput ? "Stop" : "Run",
               icon: isRunningOutput ? <Square /> : <Play />,
@@ -633,7 +621,7 @@ export default function App() {
               disabled: isBusy && !isRunningOutput,
             }}
           />
-          <aside className="flex min-h-0 min-w-0 max-h-[280px] flex-col overflow-hidden rounded-md border bg-card xl:max-h-none">
+          <aside className="flex min-h-0 min-w-0 max-h-[280px] flex-col overflow-hidden rounded-sm border bg-card xl:max-h-none">
             <div className="px-3 py-2 text-xs font-medium text-muted-foreground">Logs</div>
             <Separator />
             <ScrollArea className="min-h-0 flex-1">
@@ -642,7 +630,7 @@ export default function App() {
                   <p className="text-muted-foreground">No logs yet.</p>
                 ) : (
                   logs.map((log, index) => (
-                    <div key={`${log.level}-${index}`} className="rounded-md border bg-background px-2 py-1.5">
+                    <div key={`${log.level}-${index}`} className="rounded-sm border bg-background px-2 py-1.5">
                       <span className="font-medium uppercase text-muted-foreground">{log.level}</span>{" "}
                       <span className={log.level === "error" ? "text-destructive" : ""}>{log.message}</span>
                     </div>
