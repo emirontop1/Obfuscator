@@ -24,3 +24,4 @@ Deploys automatically to GitHub Pages via GitHub Actions on every push to `main`
 ## Credits
 
 Obfuscation engine: [Prometheus](https://github.com/prometheus-lua/Prometheus) by levno-710 / prometheus-lua (MIT licensed, see LICENSE).
+ 
