@@ -81,6 +81,60 @@ return {
 		},
 	},
 
+	-- Insane obfuscation. Everything Strong does, plus extra layers
+	-- (vararg padding, pre-split strings, and proxy-object locals).
+	-- Highest performance loss, hardest to read/reverse.
+	["Insane"] = {
+		LuaVersion = "Lua51",
+		VarNamePrefix = "",
+		NameGenerator = "MangledShuffled",
+		PrettyPrint = false,
+		Seed = 0,
+		Steps = {
+			{ Name = "AddVararg", Settings = {} },
+			{
+				Name = "SplitStrings",
+				Settings = {
+					Threshold = 1,
+					MinLength = 3,
+					MaxLength = 7,
+				},
+			},
+			{ Name = "Vmify", Settings = {} },
+			{ Name = "EncryptStrings", Settings = {} },
+			{
+				Name = "AntiTamper",
+				Settings = {
+					UseDebug = false,
+				},
+			},
+			{ Name = "Vmify", Settings = {} },
+			{
+				Name = "ConstantArray",
+				Settings = {
+					Threshold = 1,
+					StringsOnly = true,
+					Shuffle = true,
+					Rotate = true,
+					LocalWrapperThreshold = 0,
+				},
+			},
+			{
+				Name = "ProxifyLocals",
+				Settings = {
+					LiteralType = "string",
+				},
+			},
+			{
+				Name = "NumbersToExpressions",
+				Settings = {
+					NumberRepresentationMutation = true,
+				},
+			},
+			{ Name = "WrapInFunction", Settings = {} },
+		},
+	},
+
 	-- Strong obfuscation, high performance loss.
 	["Strong"] = {
 		LuaVersion = "Lua51",

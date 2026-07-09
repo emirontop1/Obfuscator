@@ -59,6 +59,19 @@ end`
   })
   .join("\n")
 
+function buildBanner(): string {
+  const art = [
+    "   ____  ____   __ __  _____ ______ ___    ______ ____   ____ ",
+    "  / __ \\/ __ \\ / // / / ___//_  __//   |  /_  __// __ \\ / __ \\",
+    " / / / / /_/ // // / / /_    / /  / /| |   / /  / / / // /_/ /",
+    "/ /_/ / _, _// // / / __/   / /  / ___ |  / /  / /_/ // _, _/ ",
+    "\\____/_/ |_|/____/ /_/     /_/  /_/  |_| /_/   \\____//_/ |_|  ",
+    "",
+    "                 obfuscated with love <3",
+  ]
+  return `--[[\n${art.join("\n")}\n]]\n\n`
+}
+
 export function buildRunLua(options: PrometheusOptions): string {
   return `
 _G.arg = _G.arg or {}
@@ -198,7 +211,7 @@ export async function runPrometheus(options: PrometheusOptions): Promise<Prometh
       }
     }
 
-    return { ok: true, output: String(result.output ?? ""), logs: normalizeLogs(result.logs) }
+    return { ok: true, output: buildBanner() + String(result.output ?? ""), logs: normalizeLogs(result.logs) }
   } catch (error) {
     return {
       ok: false,

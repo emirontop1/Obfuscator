@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 
 import { CodeEditor } from "@/components/CodeEditor"
+import { ScrambleText } from "@/components/ScrambleText"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -105,7 +106,7 @@ async function sha256Hex(input: string): Promise<string> {
 export default function App() {
   const [source, setSource] = useState(initialSource)
   const [output, setOutput] = useState("")
-  const [preset, setPreset] = useState<PresetName>("Medium")
+  const [preset, setPreset] = useState<PresetName>("Insane")
   const [luaVersion, setLuaVersion] = useState<LuaVersion>("Lua51")
   const [prettyPrint, setPrettyPrint] = useState(false)
   const [seed, setSeed] = useState(createSeed)
@@ -484,10 +485,13 @@ export default function App() {
                 <FileCode2 className="size-5" />
               </div>
               <div>
-                <h1 className="text-lg font-semibold leading-tight">Obfuscator</h1>
-                <p className="text-xs text-muted-foreground">
-                  In-browser Luau/Lua obfuscation, built on the Prometheus engine.
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[oklch(0.78_0.15_70)]">
+                  luau // lua &middot; client-side
                 </p>
+                <h1 className="text-lg font-semibold leading-tight tracking-tight">
+                  <ScrambleText text="OBFUSCATOR" />
+                </h1>
+                <p className="text-[11px] text-muted-foreground">Paste Luau. Get scrambled Luau. Nothing leaves your browser.</p>
               </div>
             </div>
             <div className="flex items-center gap-2 text-sm">
@@ -593,11 +597,11 @@ export default function App() {
                 <TooltipContent>Share link</TooltipContent>
               </Tooltip>
             </div>
-            {preset === "Strong" ? (
+            {preset === "Strong" || preset === "Insane" ? (
               <div className="flex items-start gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs leading-snug text-amber-900 md:col-span-2 xl:col-span-5 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
                 <TriangleAlert className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
                 <p>
-                  Strong is very strict and only supports Lua 5.1. It will fail in environments such as the web playground runtime (Lua 5.4).
+                  {preset} is very strict and only supports Lua 5.1. It will fail in environments such as the web playground runtime (Lua 5.4).
                 </p>
               </div>
             ) : null}
