@@ -14,7 +14,18 @@ return {
 		Seed = 0,
 		Steps = {},
 	},
-
+	
+    ["MyPreset"] = {
+    LuaVersion = "Lua51",
+    VarNamePrefix = "__my_",
+    NameGenerator = "Mangled",
+    Steps = {
+        { Name = "Vmify", Settings = {} },
+        { Name = "MyCustom", Settings = { Param1 = 10 } }, -- Yeni adımın burada
+        { Name = "WrapInFunction", Settings = {} },
+    },
+},
+	
 	-- Weak obfuscation. Very readable, low performance loss.
 	["Weak"] = {
 		LuaVersion = "Lua51",
